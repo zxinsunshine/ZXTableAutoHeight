@@ -1,0 +1,22 @@
+//
+//  PrefixHeader.pch
+//  AutoHeightTableViewDemo
+//
+//  Created by Theo on 2023/4/13.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#define zx_getter(type, name, block) \
+- (type)name { \
+if (!_##name) { \
+_##name = block; \
+} \
+return _##name; \
+}
+
+#import <Masonry/Masonry.h>
+
+
+#endif /* PrefixHeader_pch */
