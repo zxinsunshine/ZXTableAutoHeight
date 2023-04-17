@@ -7,10 +7,9 @@ Pod::Spec.new do |s|
     s.homepage         = "https://github.com/xxx"
     s.license          = 'MIT'
     s.source = {
-        :git => 'https://github.com/xxx.git',
+        :git => 'https://github.com/zxinsunshine/ZXTableAutoHeight.git',
         :tag => s.version.to_s,
-        :branch => 'master'
-        # :http => "http://xxx.zip" # zip包资源需要配置url
+        :branch => 'main'
     }
 
     s.dependency 'IGListDiffKit'
