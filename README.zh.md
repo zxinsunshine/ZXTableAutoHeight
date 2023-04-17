@@ -2,42 +2,42 @@
 
 ----------------
 
-A more effictive UITableViewCell Self-Sizing framework based on cell's auto layout.
+一款自动计算UITableViewCell大小的框架
 
-#### Multilingual translation
+#### 多语言翻译
 
-[Chinese README](README.zh.md)
+[英文README](README.md)
 
-#### Main Features
+#### 主要特性
 
-* Automatically calculate height and cache the result based on cell's auto layout
-* Update only the changed part of data analyed by Heckel Diff algorithm
-* Automatically pass data to cell after cell has conformed the specifical protocol 
-* Available to manage a lot of tableView
+* cell高度会根据其中的自动布局计算&缓存
+* 数据使用Heckel Diff算法对比后局部刷新
+* 实现cell协议后，不用再手动管理数据注入时机
+* 可同时管理多个tableView
 
-#### Requirements
+#### 要求
 
 * iOS 13.0+
 
-#### Installation
+#### 安装教程
 
 ##### CocoaPods
 
-The preferred installation method is with [CocoaPods](https://cocoapods.org). Add the following to your `Podfile`:
+推荐使用[CocoaPods](https://cocoapods.org)来进行安装，只需添加如下语句到你的Podfile文件中:
 
 ```ruby
 pod 'ZXTableAutoHeight'
 ```
 
-##### Manual
+##### 手动安装
 
-Copy AutoHeightManger directory in your project
+将AutoHeightManger文件夹拖入工程中直接使用
 
 
-#### Getting Started
+#### 入门指南
 
-##### Step 1
-* UITableViewCell conform protocol
+##### 第一步
+* UITableViewCell实现数据注入协议
 ```objective-c
 #import <ZXTableAutoHeight/ZXTableAutoHeight.h>
 
@@ -55,8 +55,8 @@ Copy AutoHeightManger directory in your project
 @end
 ```
 
-##### Step 2
-* implement delegate and datasource
+##### 第二步
+* 实现AutoManager代理
 ```objective-c
 #import <ZXTableAutoHeight/ZXTableAutoHeight.h>
 
@@ -106,8 +106,8 @@ Copy AutoHeightManger directory in your project
 @end
 ```
 
-##### Step 3
-* update modified part（should mark the data when only change the data's value）
+##### 第三步
+* 局部更新（改变数据值需要 mark 一下）
 ```objective-c
 #import <ZXTableAutoHeight/ZXTableAutoHeight.h>
 
@@ -133,4 +133,5 @@ Copy AutoHeightManger directory in your project
 
 #### License
 
-`ZXTableAutoHeight` is [MIT-licensed](https://github.com/zxinsunshine/ZXTableAutoHeight/blob/master/LICENSE).
+`ZXTableAutoHeight` 遵循[MIT-licensed](https://github.com/zxinsunshine/ZXTableAutoHeight/blob/master/LICENSE).
+
