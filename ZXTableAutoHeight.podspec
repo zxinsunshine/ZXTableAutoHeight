@@ -1,10 +1,10 @@
 
 Pod::Spec.new do |s|
     s.name             = "ZXTableAutoHeight"
-    s.version          = "1.0"
+    s.version          = "1.1"
     s.summary          = "根据UITableViewCell的自动布局计算高度的框架"
     s.author           = { "Theo Though" => "zxinsunshine@126.com" }
-    s.homepage         = "https://github.com/xxx"
+    s.homepage         = "https://github.com/zxinsunshine/ZXTableAutoHeight"
     s.license          = 'MIT'
     s.source = {
         :git => 'https://github.com/zxinsunshine/ZXTableAutoHeight.git',
