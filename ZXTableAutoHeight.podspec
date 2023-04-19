@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
     s.source_files = 'AutoHeightManger/**/*.{h,m,mm,swift}'
     s.public_header_files = 'AutoHeightManger/*.h', 'AutoHeightManger/Protocol/*.h', 'AutoHeightManger/Categories/NSObject+ZXTableViewAutoHeightMark.h'
 
-    s.ios.deployment_target = '13.0'
+    s.ios.deployment_target = '11.0'
  
 end
     

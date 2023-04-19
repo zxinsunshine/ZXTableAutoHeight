@@ -17,7 +17,7 @@ A more effictive UITableViewCell Self-Sizing framework based on cell's auto layo
 
 #### Requirements
 
-* iOS 13.0+
+* iOS 11.0+
 
 #### Installation
 
