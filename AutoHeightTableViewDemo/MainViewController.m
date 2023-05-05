@@ -83,6 +83,7 @@
 //    [self moveSection:indexPath.section];
     [self.autoManager updateTableView:tableView animation:UITableViewRowAnimationNone completion:nil];
 //    [self.autoManager reloadTableView:tableView];
+    
 }
 
 - (void)modifyItem:(NSIndexPath *)indexPath {

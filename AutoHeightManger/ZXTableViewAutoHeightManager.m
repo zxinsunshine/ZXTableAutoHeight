@@ -18,13 +18,19 @@
 
 @implementation ZXTableViewAutoHeightManager
 
+- (void)dealloc {
+    [self.registerTable.keyEnumerator.allObjects enumerateObjectsUsingBlock:^(UITableView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self removeTableView:obj];
+    }];
+}
+
 #pragma mark - Public Register Methods
 - (void)removeTableView:(UITableView *)tableView {
     if (tableView) {
         [self.registerTable removeObjectForKey:tableView];
-        [tableView removeObserver:self forKeyPath:zx_kEstimateHeightKey context:nil];
-        [tableView removeObserver:self forKeyPath:zx_kDelegateKey context:nil];
-        [tableView removeObserver:self forKeyPath:zx_kDataSourceKey context:nil];
+        [tableView removeObserver:self forKeyPath:zx_kEstimateHeightKey context:ZXTableViewObserverContext];
+        [tableView removeObserver:self forKeyPath:zx_kDelegateKey context:ZXTableViewObserverContext];
+        [tableView removeObserver:self forKeyPath:zx_kDataSourceKey context:ZXTableViewObserverContext];
     }
 }
 
@@ -34,9 +40,9 @@
         tableView.estimatedRowHeight = 0; // close system auto size
         tableView.dataSource = self;
         tableView.delegate = self;
-        [tableView addObserver:self forKeyPath:zx_kEstimateHeightKey options:NSKeyValueObservingOptionNew context:nil];
-        [tableView addObserver:self forKeyPath:zx_kDelegateKey options:NSKeyValueObservingOptionNew context:nil];
-        [tableView addObserver:self forKeyPath:zx_kDataSourceKey options:NSKeyValueObservingOptionNew context:nil];
+        [tableView addObserver:self forKeyPath:zx_kEstimateHeightKey options:NSKeyValueObservingOptionNew context:ZXTableViewObserverContext];
+        [tableView addObserver:self forKeyPath:zx_kDelegateKey options:NSKeyValueObservingOptionNew context:ZXTableViewObserverContext];
+        [tableView addObserver:self forKeyPath:zx_kDataSourceKey options:NSKeyValueObservingOptionNew context:ZXTableViewObserverContext];
     }
 }
 

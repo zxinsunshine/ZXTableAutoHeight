@@ -13,6 +13,9 @@
 
 #pragma mark - Observer Noti
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if (context != ZXTableViewObserverContext) {
+        return;
+    }
     if (![self hasRegisterTableView:object]) {
         return;
     }

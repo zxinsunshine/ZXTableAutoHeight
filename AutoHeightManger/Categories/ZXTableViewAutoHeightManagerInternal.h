@@ -8,6 +8,8 @@
 #import "ZXTableViewAutoHeightCellProtocol.h"
 #import "ZXTableViewDataInfoModel.h"
 
+static void * _Nullable ZXTableViewObserverContext = &ZXTableViewObserverContext;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZXTableViewAutoHeightManager ()
