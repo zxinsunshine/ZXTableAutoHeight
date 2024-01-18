@@ -290,7 +290,7 @@
     id cell = [self getCellWithTableView:tableView class:cellClass indexPath:indexPath dequeue:NO];
     UITableViewCell * tableViewCell = (UITableViewCell *)cell;
 //    NSLog(@"cal:cal %@", indexPath);
-    CGSize size = [tableViewCell systemLayoutSizeFittingSize:CGSizeMake(tableView.bounds.size.width, MAXFLOAT) withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
+    CGSize size = [tableViewCell.contentView systemLayoutSizeFittingSize:CGSizeMake(tableView.bounds.size.width, MAXFLOAT) withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
     // record height
     [model zx_updateModelHeight:size.height];
     return size.height;
