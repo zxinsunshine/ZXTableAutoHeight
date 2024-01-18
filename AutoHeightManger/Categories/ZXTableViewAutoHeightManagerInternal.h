@@ -8,9 +8,10 @@
 #import "ZXTableViewAutoHeightCellProtocol.h"
 #import "ZXTableViewDataInfoModel.h"
 
-static void * _Nullable ZXTableViewObserverContext = &ZXTableViewObserverContext;
-
 NS_ASSUME_NONNULL_BEGIN
+
+static NSString * const ZXTableViewObserverContext = @"ZXTableViewObserverContext";
+#define kContext(A) (__bridge void *)(A)
 
 @interface ZXTableViewAutoHeightManager ()
 
@@ -30,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 按顺序获取所有数据源
 - (ZXTableViewDataInfoModel *)getDataInfoForTableView:(UITableView *)tableView;
+
+// 清除数据源缓存
+- (void)clearDataSourceForTable:(UITableView *)tableView;
 
 #pragma mark - Cell Methods
 // 获取CellHeight

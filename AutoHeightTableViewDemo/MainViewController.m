@@ -49,6 +49,14 @@
     [self.listView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    
+    // 模拟 tableView size 改变
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.listView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(20, 20, 20, 20));
+        }];
+    });
+
 }
 
 #pragma mark - ZXTableViewAutoHeightDataSource

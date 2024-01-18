@@ -10,6 +10,7 @@
 #define zx_kEstimateHeightKey @"estimatedRowHeight"
 #define zx_kDelegateKey @"delegate"
 #define zx_kDataSourceKey @"dataSource"
+#define zx_kBoundsKey @"bounds"
 
 NS_ASSUME_NONNULL_BEGIN
 

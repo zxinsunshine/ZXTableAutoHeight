@@ -13,7 +13,9 @@
 
 #pragma mark - Observer Noti
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if (context != ZXTableViewObserverContext) {
+    
+    NSString *contextString = (__bridge NSString *)(context);
+    if (![contextString isEqualToString:ZXTableViewObserverContext]) {
         return;
     }
     if (![self hasRegisterTableView:object]) {
@@ -36,6 +38,13 @@
         if (![newDataSource isEqual:self]) {
             UITableView * tableView = (UITableView *)object;
             tableView.dataSource = self;
+        }
+    } else if ([keyPath isEqualToString:zx_kBoundsKey]) {
+        CGRect oldBounds = [change[NSKeyValueChangeOldKey] CGRectValue];
+        CGRect newBounds = [change[NSKeyValueChangeNewKey] CGRectValue];
+        if (!CGSizeEqualToSize(oldBounds.size, newBounds.size) && [object isKindOfClass:[UITableView class]]) {
+            UITableView * tableView = (UITableView *)object;
+            [self reloadTableView:tableView]; // tableView size 改变，重新计算所有高度
         }
     }
 }

@@ -48,10 +48,13 @@
     self.text = mStr;
 }
 
-- (void)zx_updateUIWithModel:(id)model {
+- (void)zx_updateUIWithModel:(id)model tableView:(UITableView *)tableView {
     if (![model isKindOfClass:[ZXCustomCellModel class]]) {
         return;
     }
+    // label的最大宽度根据 tableView size 设置
+    // 若是YYLabel， 需要设置 preferredMaxLayoutWidth 是为了能自动计算 size
+//    self.label.preferredMaxLayoutWidth = tableView.bounds.size.width;
     ZXCustomCellModel * m = (ZXCustomCellModel *)model;
     self.number = @(m.index);
 }
@@ -63,7 +66,6 @@ zx_getter(UILabel *, label, ({
     label.font = [UIFont systemFontOfSize:15];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 0;
-    label.preferredMaxLayoutWidth = [UIScreen mainScreen].bounds.size.width;
     label.lineBreakMode = NSLineBreakByTruncatingTail;
     label;
 }))

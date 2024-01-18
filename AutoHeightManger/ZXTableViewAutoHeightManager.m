@@ -28,9 +28,10 @@
 - (void)removeTableView:(UITableView *)tableView {
     if (tableView) {
         [self.registerTable removeObjectForKey:tableView];
-        [tableView removeObserver:self forKeyPath:zx_kEstimateHeightKey context:ZXTableViewObserverContext];
-        [tableView removeObserver:self forKeyPath:zx_kDelegateKey context:ZXTableViewObserverContext];
-        [tableView removeObserver:self forKeyPath:zx_kDataSourceKey context:ZXTableViewObserverContext];
+        [tableView removeObserver:self forKeyPath:zx_kEstimateHeightKey context:kContext(ZXTableViewObserverContext)];
+        [tableView removeObserver:self forKeyPath:zx_kDelegateKey context:kContext(ZXTableViewObserverContext)];
+        [tableView removeObserver:self forKeyPath:zx_kDataSourceKey context:kContext(ZXTableViewObserverContext)];
+        [tableView removeObserver:self forKeyPath:zx_kBoundsKey context:kContext(ZXTableViewObserverContext)];
     }
 }
 
@@ -40,9 +41,10 @@
         tableView.estimatedRowHeight = 0; // close system auto size
         tableView.dataSource = self;
         tableView.delegate = self;
-        [tableView addObserver:self forKeyPath:zx_kEstimateHeightKey options:NSKeyValueObservingOptionNew context:ZXTableViewObserverContext];
-        [tableView addObserver:self forKeyPath:zx_kDelegateKey options:NSKeyValueObservingOptionNew context:ZXTableViewObserverContext];
-        [tableView addObserver:self forKeyPath:zx_kDataSourceKey options:NSKeyValueObservingOptionNew context:ZXTableViewObserverContext];
+        [tableView addObserver:self forKeyPath:zx_kEstimateHeightKey options:NSKeyValueObservingOptionNew context:kContext(ZXTableViewObserverContext)];
+        [tableView addObserver:self forKeyPath:zx_kDelegateKey options:NSKeyValueObservingOptionNew context:kContext(ZXTableViewObserverContext)];
+        [tableView addObserver:self forKeyPath:zx_kDataSourceKey options:NSKeyValueObservingOptionNew context:kContext(ZXTableViewObserverContext)];
+        [tableView addObserver:self forKeyPath:zx_kBoundsKey options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:kContext(ZXTableViewObserverContext)];
     }
 }
 
@@ -51,11 +53,7 @@
     if (![self hasRegisterTableView:tableView]) {
         return;
     }
-    [[self getDataInfoForTableView:tableView].sectionModels enumerateObjectsUsingBlock:^(ZXTableViewDiffSectionModel * _Nonnull sectionModel, NSUInteger idx, BOOL * _Nonnull stop) {
-        [sectionModel.diffableObjects enumerateObjectsUsingBlock:^(ZXTableViewDiffModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self clearHeightForTable:tableView model:obj]; // 清除缓存高度
-        }];
-    }];
+    [self clearDataSourceForTable:tableView];
     [tableView reloadData];
 }
 
@@ -175,10 +173,10 @@
     } else {
         cell = [[cls alloc] initWithStyle:style reuseIdentifier:nil];
     }
-    NSAssert([self isAutoHeightCell:cell], @"%@ 没有实现 zx_updateUIWithModel: 方法", NSStringFromClass(cls));
+    NSAssert([self isAutoHeightCell:cell], @"%@ 没有实现 zx_updateUIWithModel:tableView: 方法", NSStringFromClass(cls));
     UITableViewCell<ZXTableViewAutoHeightCellProtocol> * targetCell = (UITableViewCell<ZXTableViewAutoHeightCellProtocol> *)cell;
     id object = [self getObjectForRow:indexPath.row section:indexPath.section tableView:tableView];
-    [targetCell zx_updateUIWithModel:object];
+    [targetCell zx_updateUIWithModel:object tableView:tableView];
     return targetCell;
 }
 
@@ -204,7 +202,7 @@
 
 // 是否是遵循自动计算协议的cell
 - (BOOL)isAutoHeightCell:(UITableViewCell *)cell {
-    return [cell respondsToSelector:@selector(zx_updateUIWithModel:)];
+    return [cell respondsToSelector:@selector(zx_updateUIWithModel:tableView:)];
 }
 
 // 按顺序获取所有数据源
@@ -292,18 +290,19 @@
     id cell = [self getCellWithTableView:tableView class:cellClass indexPath:indexPath dequeue:NO];
     UITableViewCell * tableViewCell = (UITableViewCell *)cell;
 //    NSLog(@"cal:cal %@", indexPath);
-    CGSize size = [tableViewCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    CGSize size = [tableViewCell systemLayoutSizeFittingSize:CGSizeMake(tableView.bounds.size.width, MAXFLOAT) withHorizontalFittingPriority:UILayoutPriorityDefaultHigh verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
     // record height
     [model zx_updateModelHeight:size.height];
     return size.height;
 }
 
-// 清除高度缓存
-- (void)clearHeightForTable:(UITableView *)tableView model:(ZXTableViewDiffModel *)model {
-    if (!model.object || ![self hasRegisterTableView:tableView]) {
-        return;
-    }
-    [model.object zx_clearModelHeight];
+- (void)clearDataSourceForTable:(UITableView *)tableView {
+    [[self getDataInfoForTableView:tableView].sectionModels enumerateObjectsUsingBlock:^(ZXTableViewDiffSectionModel * _Nonnull sectionModel, NSUInteger idx, BOOL * _Nonnull stop) {
+        [sectionModel.diffableObjects enumerateObjectsUsingBlock:^(ZXTableViewDiffModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+            [model.object zx_clearModelHeight];
+            [model.object zx_unMarkModify];
+        }];
+    }];
 }
 
 // 差异计算

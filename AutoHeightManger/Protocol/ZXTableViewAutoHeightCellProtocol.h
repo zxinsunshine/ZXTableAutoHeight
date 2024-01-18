@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 更新UI数据
 /// - Parameter model: 数据
-- (void)zx_updateUIWithModel:(id _Nullable )model;
+- (void)zx_updateUIWithModel:(id)model tableView:(UITableView *)tableView;
 
 @end
 

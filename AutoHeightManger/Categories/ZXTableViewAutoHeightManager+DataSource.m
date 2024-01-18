@@ -33,7 +33,7 @@
     Class cls = [self getCellClassForTableView:tableView section:indexPath.section row:indexPath.row];
     UITableViewCell<ZXTableViewAutoHeightCellProtocol> * cell = [self getCellWithTableView:tableView class:cls indexPath:indexPath dequeue:YES];
     id object = [self getObjectForRow:indexPath.row section:indexPath.section tableView:tableView];
-    [cell zx_updateUIWithModel:object];
+    [cell zx_updateUIWithModel:object tableView:tableView];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(zx_tableView:didGenerateCell:forRowAtIndexPath:object:)]) {
         [self.delegate zx_tableView:tableView didGenerateCell:cell forRowAtIndexPath:indexPath object:object];
@@ -43,7 +43,9 @@
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self getCellHeightForTableView:tableView model:[self getObjectForRow:indexPath.row section:indexPath.section tableView:tableView] cellClass:[self getCellClassForTableView:tableView section:indexPath.section row:indexPath.row] indexPath:indexPath];
+    CGFloat height = [self getCellHeightForTableView:tableView model:[self getObjectForRow:indexPath.row section:indexPath.section tableView:tableView] cellClass:[self getCellClassForTableView:tableView section:indexPath.section row:indexPath.row] indexPath:indexPath];
+//    NSLog(@"%lf", height);
+    return height;
 }
 
 #pragma mark - 其它数据源和代理映射
