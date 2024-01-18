@@ -9,7 +9,6 @@ Pod::Spec.new do |s|
     s.source = {
         :git => 'https://github.com/zxinsunshine/ZXTableAutoHeight.git',
         :tag => s.version.to_s,
-        :branch => 'main'
     }
 
     s.dependency 'IGListDiffKit'
