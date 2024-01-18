@@ -6,6 +6,7 @@ target 'AutoHeightTableViewDemo' do
   use_frameworks!
   pod 'Masonry'
   pod 'ZXTableAutoHeight' , :path => './'
+  pod 'YYText'
 
   post_install do |installer|
       installer.generated_projects.each do |project|
